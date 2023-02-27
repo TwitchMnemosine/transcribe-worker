@@ -1,7 +1,6 @@
 require('dotenv').config();
 const container = require('./container');
 
-
 const {eventBus:{topicToPublish}} = require('./infrastructure/config');
 const messageBroker = container.resolve('messageBroker');
 const transcriptStream = container.resolve('transcriptStream');

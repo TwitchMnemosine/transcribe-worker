@@ -6,7 +6,7 @@ services:
     deploy:
       replicas: 1
     environment:
-      REPLICATE_API_TOKEN: 6ea8b76af81c7a8fa94c17a0022f969fe4beed34  
+      GLADIA_API_KEY: ---
     volumes:
       - ./src:/usr/src/app
     command: npm run dev

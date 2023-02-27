@@ -16,6 +16,9 @@ const run = {
     apiBaseUrl: process.env.TWITCH_BASE_URL_API || 'https://api.twitch.tv/helix',
     oauthBaseUrl: process.env.TWITCH_BASE_URL_AUTH || 'https://id.twitch.tv/oauth2/token',
   },
+  gladia: {
+    apiKey: process.env.GLADIA_API_KEY || 'xx'
+  },
   mnt: {
     baseFolderPath: process.env.MNT_BASE_FOLDER_PATH || '/mnt'
   },

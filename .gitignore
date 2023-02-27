@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Remove media files
+*.mp3
+*.mkv
+
+# Ignore transcripts 
+transcript.json
