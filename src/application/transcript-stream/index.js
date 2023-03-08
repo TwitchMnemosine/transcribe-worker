@@ -1,5 +1,6 @@
 const { mnt: { baseFolderPath } } = require('../../infrastructure/config');
 const { PROCESSING, FINISHED } = require('../../domain/transcript/status-list');
+const Transcriptions = require('../../domain/transcript/transcriptions');
 
 class TranscriptStream {
   constructor({ fileSystem, spawn, process, transcriptRepository }) {
@@ -18,14 +19,25 @@ class TranscriptStream {
     await this._downloadTwitchVod({ streamId, path });
     await this._convertFiles({ streamId, path });
     this.fileSystem.unlinkSync(`${path}/${streamId}.mkv`);
+
     if (streamTranscript.duration > 1800) {
       await this._splitFiles({ streamId, path, secondsToSplit: 1800 });
       this.fileSystem.unlinkSync(`${path}/${streamId}.mp3`);
     }
 
     await this._runTranscription({ path: `${path}/` });
+
     const transcriptionJSON = JSON.parse(this.fileSystem.readFileSync(`${path}/transcript.json`));
-    streamTranscript.transcriptions = [...transcriptionJSON.segments]
+    const transcriptionDomain = transcriptionJSON.segments.map(transcriptionsCurrent => {
+      return new Transcriptions({
+        start: transcriptionsCurrent.time_begin,
+        end: transcriptionsCurrent.time_end,
+        text: transcriptionsCurrent.transcription,
+        language: transcriptionsCurrent.language,
+      }).toObject()
+    });
+
+    streamTranscript.transcriptions = [...transcriptionDomain]
     streamTranscript.status = FINISHED;
     this.transcriptRepository.update(streamTranscript);
 

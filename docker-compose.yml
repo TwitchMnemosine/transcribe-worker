@@ -6,7 +6,7 @@ services:
     deploy:
       replicas: 1
     environment:
-      GLADIA_API_KEY: ---
+      GLADIA_API_KEY: e65b7a33-6a84-4050-bea1-29f2355f40e6
     volumes:
       - ./src:/usr/src/app
     command: npm run dev
